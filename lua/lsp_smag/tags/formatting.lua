@@ -19,7 +19,7 @@ end
 
 function M.lsp_location_to_tag(name, kind, lsp_location)
     local uri = lsp_location.uri or lsp_location.targetUri
-    local range = lsp_location.range or lsp_location.targetRange
+    local range = lsp_location.range or lsp_location.targetSelectionRange or lsp_location.targetRange
     local line = range.start.line + 1
     local column = range.start.character + 1
     local cmd = 'normal ' .. line .. 'G' .. column .. '|'
