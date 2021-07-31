@@ -22,11 +22,20 @@ local function get_locations_from_client(client, method, parameter, buffer_numbe
 
     local response = client.request_sync(method, parameter, nil, buffer_number)
 
-    if response == nil or client_response_is_error(response) then
-        return {}
+    if
+      response == nil
+      or client_response_is_error(response)
+      or response.result == nil
+      or vim.tbl_isempty(response.result)
+    then
+      return {}
     end
 
-    return response.result
+    if vim.tbl_count(response.result) ~= 1 then
+      return { response.result }
+    else
+      return response.result
+    end
 end
 
 local function get_locations_from_all_clients(method)
